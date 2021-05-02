@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Post</title>
+</head>
+<body>
+    <h1>Delete Posts...So much Power</h1>
+</body>
+
+<FORM METHOD="POST" ACTION="DeletePost.php">
+    <TABLE BORDER="1">
+      <TR>
+          <th scope = "col">Author</th>
+          <th scope = "col">Post ID</th>
+          <th scope = "col">Delete?</th>
+          <th scope = "col">Content</th>
+      </TR>
+      <?php 
+        
+        $db = new mysqli("mysql.eecs.ku.edu", "jacobwagner", "voo9Ki4e", "jacobwagner");
+        if ($db->connect_errno) {
+            echo("Connection failed");
+        }
+        else {
+            $query = "SELECT * FROM Posts";
+        
+            if ($result = $db->query($query)) {
+                if (mysqli_num_rows($result) > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo('<tr>');
+                        echo('<td>'.$row["author_id"].'</td>');
+                        $post_id = $row["post_id"];
+                        echo('<td>'.$row["post_id"].'</td>');
+                        echo('<td>');
+                        echo('<INPUT TYPE = "checkbox" NAME = "delete[]" value = '.$post_id.' SIZE = "5">');
+                        echo('</td><td>'.$row["content"].'</td>');
+                        echo('<tr>');
+                    }
+                }
+                else {
+                    echo("No Posts available!".'<br>');
+                }
+            }
+            else {
+                echo("Invalid Query".'<br>');
+            }
+        }
+        
+      ?>
+    </TABLE>
+    <P><INPUT TYPE="SUBMIT" VALUE="Submit" ></P>
+    </FORM>
+
+</html>

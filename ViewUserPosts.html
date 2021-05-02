@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UserPosts</title>
+</head>
+<body>
+    <h1>User Posts</h1>
+    <form action="ViewUserPosts.php" method = "POST">
+        <label for="users">Choose a User:</label>
+        <select name="users" id="users">
+        <?php 
+        $db = new mysqli("mysql.eecs.ku.edu", "jacobwagner", "voo9Ki4e", "jacobwagner");
+        if ($db->connect_errno) {
+            echo("Connection failed");
+            echo('<option value = "Could not connect">'."Could not connect".'</option>');
+        }
+        else {
+            $query = "SELECT user_id FROM Users";
+            if ($result = $db->query($query)) {
+                while($row = $result->fetch_assoc()) {
+                    $usr = $row["user_id"];
+                    echo('<option value = '.$usr.'>'.$usr.'</option>'); 
+                }
+            }
+            else {
+                echo('<option value = "Empty DB">'."Empty DB".'</option>');
+            }
+        }
+        ?>
+        </select>
+        <br><br>
+        <input type="submit" value="Submit">
+      </form>
+</body>
+
+
+</html>
